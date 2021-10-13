@@ -42,6 +42,9 @@ public class N9eService extends AbstractMonitorService {
     @Value("${monitor.n9e.rdb.base-url}")
     private String monitorN9eRdbBaseUrl;
 
+    @Value("${monitor.n9e.user-name}")
+    private String monitorN9eUserName;
+
     private static final Cache<String, NotifyGroup> NOTIFY_GROUP_CACHE = Caffeine.newBuilder()
             .maximumSize(100000)
             .expireAfterWrite(60, TimeUnit.MINUTES).build();
@@ -50,19 +53,25 @@ public class N9eService extends AbstractMonitorService {
      * 告警策略
      */
     private static final String STRATEGY_ADD_URL = "/api/mon/stra";
+    //private static final String STRATEGY_ADD_URL = "/api/n9e/alert-rules";
 
     private static final String STRATEGY_DEL_URL = "/api/mon/stra";
 
     private static final String STRATEGY_MODIFY_URL = "/api/mon/stra";
 
     private static final String STRATEGY_QUERY_BY_NS_URL = "/api/mon/stra";
+    //private static final String STRATEGY_QUERY_BY_NS_URL = "/api/n9e/alert-rule-groups";
 
     private static final String STRATEGY_QUERY_BY_ID_URL = "/api/mon/stra";
+    //private static final String STRATEGY_QUERY_BY_ID_URL = "/api/n9e/alert-rule-groups";
 
 
-    private static final String ALERT_QUERY_BY_NS_AND_PERIOD_URL = "/auth/v1/event/query/ns/period";
+   // private static final String ALERT_QUERY_BY_NS_AND_PERIOD_URL = "/auth/v1/event/query/ns/period";
+   private static final String ALERT_QUERY_BY_NS_AND_PERIOD_URL = "/api/n9e/alert-rule-groups";
+
 
     private static final String ALERT_QUERY_BY_ID_URL = "/auth/v1/event/query/id";
+    //private static final String ALERT_QUERY_BY_ID_URL = "/api/n9e/alert-rule-groups";
 
     /**
      * 告警屏蔽
@@ -79,6 +88,7 @@ public class N9eService extends AbstractMonitorService {
      * 指标数据
      */
     private static final String COLLECTOR_SINK_DATA_URL = "/api/transfer/push";
+    //private static final String COLLECTOR_SINK_DATA_URL = "/v1/n9e/push";
 
     private static final String COLLECTOR_DOWNLOAD_DATA_URL = "/data/query/graph/dashboard/history";
 
@@ -86,6 +96,7 @@ public class N9eService extends AbstractMonitorService {
      * 告警组
      */
     private static final String ALL_NOTIFY_GROUP_URL = "/api/rdb/teams/all?limit=10000";
+    //private static final String ALL_NOTIFY_GROUP_URL = "/api/n9e/user-groups?limit=10000";
 
     /**
      * 监控策略的增删改查
@@ -296,6 +307,8 @@ public class N9eService extends AbstractMonitorService {
         Map<String, String> header = new HashMap<>(2);
         header.put("Content-Type", "application/json");
         header.put("X-User-Token", monitorN9eUserToken);
+        //header.put("Authorization",monitorN9eUserToken);
+        header.put("username", monitorN9eUserName);
         return header;
     }
 }

@@ -209,7 +209,9 @@ public class LogicalClusterMetadataManager {
         Set<String> topicNameSet = PhysicalClusterMetadataManager.getBrokerTopicNum(
                 logicalClusterDO.getClusterId(),
                 brokerIdSet);
-        LOGICAL_CLUSTER_ID_TOPIC_NAME_MAP.put(logicalClusterDO.getId(), topicNameSet);
+        if (topicNameSet.size() != 0) {
+            LOGICAL_CLUSTER_ID_TOPIC_NAME_MAP.put(logicalClusterDO.getId(), topicNameSet);
+        }
 
         // 计算Topic名称到逻辑集群的映射
         Map<String, Long> subMap =
